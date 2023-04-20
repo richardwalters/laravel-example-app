@@ -22,7 +22,7 @@ class UsersTest extends TestCase
 
         $response->assertStatus(200);
         $response
-            ->assertJson(fn (AssertableJson $json) => $json->has('data', 11));
+            ->assertJson(fn(AssertableJson $json) => $json->has('data', 11));
     }
 
     /**
@@ -38,14 +38,26 @@ class UsersTest extends TestCase
 
         $response->assertStatus(200);
         $response
-            ->assertJson(fn (AssertableJson $json) => $json->has('data', 1)
-                ->has('data.0', fn (AssertableJson $json) => $json->where('id', $user->id)
+            ->assertJson(fn(AssertableJson $json) => $json->has('data', 1)
+                ->has('data.0', fn(AssertableJson $json) => $json->where('id', $user->id)
                     ->where('name', 'Harry Potter')
                     ->where('email', 'harrypotter@hogwarts.com')
                     ->missing('password')
                     ->etc()
                 )
             );
+    }
+
+    /**
+     * Returns an empty list of users if no users available.
+     */
+    public function test_users_returns_a_successful_empty_list_of_users(): void
+    {
+        $response = $this->get('/api/users');
+
+        $response->assertStatus(200);
+        $response
+            ->assertJson(fn(AssertableJson $json) => $json->has('data', 0));
     }
 
     /**
@@ -61,12 +73,28 @@ class UsersTest extends TestCase
 
         $response->assertStatus(200);
         $response
-            ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $json) => $json->where('id', $user->id)
+            ->assertJson(fn(AssertableJson $json) => $json->has('data', fn(AssertableJson $json) => $json->where('id', $user->id)
                 ->where('name', 'Harry Potter')
                 ->where('email', 'harrypotter@hogwarts.com')
                 ->missing('password')
                 ->etc()
             )
             );
+    }
+
+    /**
+     * A basic test example for one user.
+     */
+    public function test_get_no_existent_user_returns_not_found(): void
+    {
+        $user = User::factory()->create([
+            'name' => 'Harry Potter',
+            'email' => 'harrypotter@hogwarts.com',
+        ]);
+        $response = $this->get("/api/user/100");
+
+        $response->assertStatus(404);
+        $response
+            ->assertJson(fn(AssertableJson $json) => $json->where('message', 'Record not found.'));
     }
 }
