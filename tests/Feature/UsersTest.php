@@ -24,7 +24,7 @@ class UsersTest extends TestCase
 
         $response->assertStatus(200);
         $response
-            ->assertJson(fn(AssertableJson $json) => $json->has('data', 11));
+            ->assertJson(fn (AssertableJson $json) => $json->has('data', 11));
     }
 
     /**
@@ -40,8 +40,8 @@ class UsersTest extends TestCase
 
         $response->assertStatus(200);
         $response
-            ->assertJson(fn(AssertableJson $json) => $json->has('data', 1)
-                ->has('data.0', fn(AssertableJson $json) => $json->where('id', $user->id)
+            ->assertJson(fn (AssertableJson $json) => $json->has('data', 1)
+                ->has('data.0', fn (AssertableJson $json) => $json->where('id', $user->id)
                     ->where('name', 'Harry Potter')
                     ->where('email', 'harrypotter@hogwarts.com')
                     ->missing('password')
@@ -59,7 +59,7 @@ class UsersTest extends TestCase
 
         $response->assertStatus(200);
         $response
-            ->assertJson(fn(AssertableJson $json) => $json->has('data', 0));
+            ->assertJson(fn (AssertableJson $json) => $json->has('data', 0));
     }
 
     /**
@@ -75,7 +75,7 @@ class UsersTest extends TestCase
 
         $response->assertStatus(200);
         $response
-            ->assertJson(fn(AssertableJson $json) => $json->has('data', fn(AssertableJson $json) => $json->where('id', $user->id)
+            ->assertJson(fn (AssertableJson $json) => $json->has('data', fn (AssertableJson $json) => $json->where('id', $user->id)
                 ->where('name', 'Harry Potter')
                 ->where('email', 'harrypotter@hogwarts.com')
                 ->missing('password')
@@ -93,14 +93,15 @@ class UsersTest extends TestCase
             'name' => 'Harry Potter',
             'email' => 'harrypotter@hogwarts.com',
         ]);
-        $response = $this->get("/api/user/100");
+        $response = $this->get('/api/user/100');
 
         $response->assertStatus(404);
         $response
-            ->assertJson(fn(AssertableJson $json) => $json->where('message', 'Record not found.'));
+            ->assertJson(fn (AssertableJson $json) => $json->where('message', 'Record not found.'));
     }
 
-    public function test_users_returns_a_successful_list_of_users_with_mock(): void {
+    public function test_users_returns_a_successful_list_of_users_with_mock(): void
+    {
         $this->mock(UserService::class, function (MockInterface $mock) {
             $mock
                 ->shouldReceive('getAll')
@@ -108,11 +109,11 @@ class UsersTest extends TestCase
                 ->andReturn([[
                     'id' => 12,
                     'name' => 'Hermione Granger',
-                    'email' => 'hermionegranger@hogwarts.com'
+                    'email' => 'hermionegranger@hogwarts.com',
                 ]]);
         });
 
-        $response = $this->get("/api/users_via_controller");
+        $response = $this->get('/api/users_via_controller');
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) => $json->has('data', 1)
             ->has('data.0', fn (AssertableJson $json) => $json->where('id', 12)

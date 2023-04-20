@@ -31,4 +31,4 @@ Route::get('/user/{id}', function (string $id) {
 });
 
 // Laravel automatically injects dependencies like UserService
-Route::apiResource("users_via_controller", UserController::class); 
+Route::apiResource('users_via_controller', UserController::class);

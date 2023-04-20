@@ -4,8 +4,8 @@ namespace Tests\Unit\Services;
 
 use App\Models\User;
 use App\Services\UserService;
-use PHPUnit\Framework\TestCase;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 
 class UserServiceTest extends TestCase
 {
@@ -21,7 +21,7 @@ class UserServiceTest extends TestCase
             ->andReturn([[
                 'id' => 12,
                 'name' => 'Hermione Granger',
-                'email' => 'hermionegranger@hogwarts.com'
+                'email' => 'hermionegranger@hogwarts.com',
             ]]);
 
         $userService = new UserService($mockUser);

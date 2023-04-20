@@ -11,9 +11,11 @@ class UserController extends Controller
 {
     protected UserService $userService;
 
-    public function __construct(private UserService $user_service) {
+    public function __construct(private UserService $user_service)
+    {
         $this->userService = $user_service;
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -35,7 +37,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        
+
     }
 
     /**
