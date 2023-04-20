@@ -4,8 +4,10 @@ namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 class UsersTest extends TestCase
@@ -96,5 +98,27 @@ class UsersTest extends TestCase
         $response->assertStatus(404);
         $response
             ->assertJson(fn(AssertableJson $json) => $json->where('message', 'Record not found.'));
+    }
+
+    public function test_users_returns_a_successful_list_of_users_with_mock(): void {
+        $this->mock(UserService::class, function (MockInterface $mock) {
+            $mock
+                ->shouldReceive('getAll')
+                ->once()
+                ->andReturn([[
+                    'id' => 12,
+                    'name' => 'Hermione Granger',
+                    'email' => 'hermionegranger@hogwarts.com'
+                ]]);
+        });
+
+        $response = $this->get("/api/users_via_controller");
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) => $json->has('data', 1)
+            ->has('data.0', fn (AssertableJson $json) => $json->where('id', 12)
+            ->where('name', 'Hermione Granger')
+            ->where('email', 'hermionegranger@hogwarts.com')
+            ->etc()
+        ));
     }
 }
