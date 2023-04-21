@@ -45,6 +45,11 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "install-hooks": [
+            "npx husky install",
+            "npx husky add .husky/pre-commit \"./vendor/bin/sail pint\"",
+            "npx husky add .husky/pre-push \"./vendor/bin/sail test --coverage --profile\""
         ]
     },
     "extra": {

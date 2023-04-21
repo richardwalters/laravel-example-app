@@ -47,6 +47,12 @@ to the [.env](./.env) file
 
 ## Git Hooks for Quality
 
+### Install Husky with Composer Command
+
+```shell
+sail composer run install-hooks
+```
+
 ### Install Husky
 
 ```shell
