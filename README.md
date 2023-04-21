@@ -47,7 +47,7 @@ to the [.env](./.env) file
 
 ## Git Hooks for Quality
 
-### Install Husky with Composer Command
+### Install Git Hooks with Composer
 
 ```shell
 sail composer run install-hooks
