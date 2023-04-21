@@ -45,4 +45,26 @@ APP_PORT=8080
 ```
 to the [.env](./.env) file
 
+## Git Hooks for Quality
+
+### Install Husky
+
+```shell
+sail npx husky install
+```
+
+### Check Hook Path
+```shell
+git config --local --get core.hooksPath
+```
+
+### Add a Pre-Commit Hook
+```shell
+sail npx husky add .husky/pre-commit "./vendor/bin/sail pint"
+```
+
+### Add a Pre-Push Hook
+```shell
+sail npx husky add .husky/pre-push "./vendor/bin/sail test"
+```
 
