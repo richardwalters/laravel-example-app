@@ -45,7 +45,7 @@ APP_PORT=8080
 ```
 to the [.env](./.env) file
 
-## Git Hooks for Quality
+## Git Hooks for Quality
 
 ### Install Husky
 
