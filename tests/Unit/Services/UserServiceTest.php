@@ -27,8 +27,12 @@ class UserServiceTest extends TestCase
         $userService = new UserService($mockUser);
         $users = $userService->getAll();
 
-        expect($users)->toHaveLength(1);
-        expect($users[0])->toHaveKey('name', 'Hermione Granger');
-        expect($users[0])->toHaveKey('email', 'hermionegranger@hogwarts.com');
+        $this->assertCount(1, $users);
+        $expectedUser = (array) $users[0];
+        $this->assertArrayHasKey('name', $expectedUser);
+        $this->assertEquals('Hermione Granger', $expectedUser['name']);
+        $this->assertArrayHasKey('email', $expectedUser);
+        $this->assertEquals('hermionegranger@hogwarts.com', $expectedUser['email']);
+
     }
 }
