@@ -74,3 +74,11 @@ sail npx husky add .husky/pre-commit "./vendor/bin/sail pint"
 sail npx husky add .husky/pre-push "./vendor/bin/sail test"
 ```
 
+
+## NPM Related Changes
+
+### Run Browser Tests
+
+```
+sail composer run browser-tests
+```

@@ -13,6 +13,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
+        "laravel/dusk": "^7.7",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.21",
         "mockery/mockery": "^1.4.4",
@@ -50,6 +51,10 @@
             "npx husky install",
             "npx husky add .husky/pre-commit \"./vendor/bin/sail pint\"",
             "npx husky add .husky/pre-push \"./vendor/bin/sail test --coverage --profile\""
+        ],
+        "browser-tests": [
+            "npm install && npm run build",
+            "APP_URL=http://laravel.test php artisan dusk"
         ]
     },
     "extra": {

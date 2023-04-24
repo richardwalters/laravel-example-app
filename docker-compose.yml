@@ -17,12 +17,14 @@ services:
             LARAVEL_SAIL: 1
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+            DUSK_DRIVER_URL: 'http://chromedriver:4444/wd/hub/'
         volumes:
             - '.:/var/www/html'
         networks:
             - sail
         depends_on:
             - mysql
+            - chromedriver
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -47,6 +49,14 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+    chromedriver:
+        image: 'selenium/standalone-chrome'
+        volumes:
+            - '/dev/shm:/dev/shm'
+        ports:
+            - 4444:4444
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge
