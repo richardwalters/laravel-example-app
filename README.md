@@ -74,11 +74,33 @@ sail npx husky add .husky/pre-commit "./vendor/bin/sail pint"
 sail npx husky add .husky/pre-push "./vendor/bin/sail test"
 ```
 
-
-## NPM Related Changes
-
 ### Run Browser Tests
 
 ```
 sail composer run browser-tests
+```
+
+## API Documentation
+
+### Installation
+
+SDK Documentation for Attributes please check [PHP-Swagger](http://zircote.github.io/swagger-php/)
+
+
+```
+sail composer require "darkaonline/l5-swagger"
+```
+
+Then publish config and all view files:
+```
+php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
+```
+
+Next, open a *config/l5-swagger.php* file. Let's walk through essential keys:
+
+*routes.api* — This is an URL for accessing documentation UI. Your frontend team will be using it to access documentation. By default, it is *api/documentation* . I prefer changing it to something smaller like *api/docs*
+
+### Generating Docs
+```
+php artisan l5-swagger:generate
 ```
