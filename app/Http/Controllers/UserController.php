@@ -6,6 +6,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use OpenApi\Attributes as OA;
 
 class UserController extends Controller
 {
@@ -16,9 +17,27 @@ class UserController extends Controller
         $this->userService = $user_service;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+    #[OA\Get(
+        path: '/api/users',
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'A single user tree.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'users',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: '#/components/schemas/User'
+                            )
+                        ),
+                    ],
+                    type: 'object'
+                )
+            ),
+        ]
+    )]
     public function index()
     {
         return UserResource::collection($this->userService->getAll());
